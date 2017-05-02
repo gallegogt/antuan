@@ -16,3 +16,10 @@ npm run build
 ```
 
 For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+## TODO:
+
+* añadir nuevos campos customizados
+* activar eventos para botones
+* webpack - how to css uglify
+

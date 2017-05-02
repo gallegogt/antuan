@@ -1,0 +1,64 @@
+label{
+  display: inline-block;
+  width: 200px;
+}
+
+input{
+  display: inline-block;
+}
+
+select{
+  width: 130px;
+}
+
+.newfieldlink{
+  text-align: right;
+}
+
+.newfieldlink a{
+  margin-right: 1rem;
+  display: inline-block;
+}
+
+.row{
+  margin-bottom: 0.5rem;
+}
+
+.mandatory{
+  color: #FF0000;
+  margin-left: 2px;
+}
+
+.input-box{
+  /* background-color: #FFFF00;*/
+  overflow: auto;
+  position: absolute;
+  bottom: 50px;
+  top: 70px;
+  width: 90%;
+  margin-left: 2%;
+  margin-right: 2%;
+  padding: 5px;
+}
+
+/*
+.step-1{
+  display: none;
+}
+
+*/
+.button-section {
+  /*background-color: #00FFFF;*/
+  position: absolute;
+  bottom: 10px;
+  width:90%;
+  margin-left: 2%;
+  margin-right: 2%;
+  text-align: right;
+  padding: 5px;
+}
+
+.custom-input-title{
+  width: 180px;
+  margin-right: 20px;
+}
