@@ -12,22 +12,30 @@
 export default {
   name: 'inputselect',
   props: {
-    'name': String,
-    'labeltext': String
+    name: String,
+    labeltext: String,
   },
-  data(){
+  data() {
     return {
-      options:[
-        {optionLabel: "opción 1", value:"1"},
-        {optionLabel: "opción 2", value:"2"}
-      ]
+      options: [
+        {
+          optionLabel: 'opción 1',
+          value: '1',
+        },
+        {
+          optionLabel: 'opción 2',
+          value: '2',
+        },
+      ],
     }
-  }
+  },
 }
 
 
 </script>
 
 <style>
+
+
 
 </style>

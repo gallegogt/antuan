@@ -47,30 +47,30 @@
 
 <script>
 
-import CustomInputSelect from './components/CustomInputSelect.vue'
-import CustomInputText from './components/CustomInputText.vue'
-import InputSelect from './components/InputSelect.vue'
-import InputText from './components/InputText.vue'
+// import CustomInputSelect from './components/CustomInputSelect'
+// import CustomInputText from './components/CustomInputText'
+import InputSelect from './components/InputSelect'
+import InputText from './components/InputText'
 
-import AditionalSetInputs from './components/AditionalSetInputs.vue'
+import AditionalSetInputs from './components/AditionalSetInputs'
 
 export default {
   name: 'app',
   components: {
     inputselect: InputSelect,
     inputtext: InputText,
-    aditionalsetinputs: AditionalSetInputs
+    aditionalsetinputs: AditionalSetInputs,
   },
   data() {
     return {
-      isVisibleSetp1: true
+      isVisibleSetp1: true,
     }
   },
-  methods:{
-    toggle(){
-      this.isVisibleSetp1=!this.isVisibleSetp1;
-    }
-  }
+  methods: {
+    toggle() {
+      this.isVisibleSetp1 = !this.isVisibleSetp1
+    },
+  },
 }
 
 
@@ -78,5 +78,63 @@ export default {
 
 
 <style lang="scss">
+
+
+.button-section {
+    /*background-color: #00FFFF;*/
+    position: absolute;
+    bottom: 10px;
+    width:90%;
+    margin-left: 2%;
+    margin-right: 2%;
+    text-align: right;
+    padding: 5px;
+  }
+
+  .row{
+    margin-bottom: 0.5rem;
+  }
+
+
+  /*
+  .step-1{
+    display: none;
+  }
+  */
+  .mandatory{
+    color: #FF0000;
+    margin-left: 2px;
+  }
+
+  .input-box{
+    /* background-color: #FFFF00;*/
+    overflow: auto;
+    position: absolute;
+    bottom: 50px;
+    top: 70px;
+    width: 90%;
+    margin-left: 2%;
+    margin-right: 2%;
+    padding: 5px;
+
+
+  }
+
+
+  label{
+    display: inline-block;
+    width: 200px;
+  }
+
+  input{
+    display: inline-block;
+  }
+
+  select{
+    width: 130px;
+  }
+
+
+
 
 </style>

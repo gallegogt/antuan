@@ -19,7 +19,6 @@ For detailed explanation on how things work, consult the [docs for vue-loader](h
 
 ## TODO:
 
-* añadir nuevos campos customizados
-* activar eventos para botones
-* webpack - how to css uglify
+* Generación de etiquetas para nuevos campos customizados.
+* Añadir opción de eliminar campos customizados que se hayan agregado
 

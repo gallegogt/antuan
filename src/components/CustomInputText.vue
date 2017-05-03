@@ -10,19 +10,25 @@
 export default {
   name: 'inputselect',
   props: {
-    'labelname': String,
-    'labelplaceholder': String,
-    'name': String,
-    'placeholder': String
+    labelname: String,
+    labelplaceholder: String,
+    name: String,
+    placeholder: String,
   },
-  data(){
+  data() {
     return {
     }
-  }
+  },
 }
 
 </script>
 
-<style>
+<style lang="scss">
+
+  .custom-input-title {
+    width: 180px;
+    margin-right: 20px;
+  }
+
 
 </style>

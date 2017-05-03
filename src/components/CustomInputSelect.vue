@@ -11,22 +11,33 @@
 export default {
   name: 'inputselect',
   props: {
-    'labelname': String,
-    'labelplaceholder': String,
-    'name': String
+    labelname: String,
+    labelplaceholder: String,
+    name: String,
   },
-  data(){
+  data() {
     return {
-      options:[
-        {optionLabel: "opción 1", value:"1"},
-        {optionLabel: "opción 2", value:"2"}
-      ]
+      options: [
+        {
+          optionLabel: 'opción 1',
+          value: '1',
+        },
+        {
+          optionLabel: 'opción 2',
+          value: '2',
+        },
+      ],
     }
-  }
+  },
 }
 
 </script>
 
-<style>
+<style lang="scss">
+
+  .custom-input-title {
+      width: 180px;
+      margin-right: 20px;
+  }
 
 </style>

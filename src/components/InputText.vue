@@ -1,5 +1,5 @@
 <template lang="pug">
-  .row
+  .row.inputtext
     label(v-bind:for='name') {{ labeltext }}
     input(v-bind:name="name" v-bind:value="value" v-bind:placeholder="placeholder")
 
@@ -11,19 +11,20 @@
 export default {
   name: 'inputtext',
   props: {
-    'name': String,
-    'labeltext': String,
-    'value': String,
-    'placeholder': String
+    name: String,
+    labeltext: String,
+    value: String,
+    placeholder: String,
   },
-  data(){
+  data() {
     return {
     }
-  }
+  },
 }
 
 </script>
 
 <style>
+
 
 </style>

@@ -14,18 +14,18 @@ div
 
 <script>
 
-  import CustomInputSelect from './CustomInputSelect.vue'
-  import CustomInputText from './CustomInputText.vue'
+  import CustomInputSelect from './CustomInputSelect'
+  import CustomInputText from './CustomInputText'
 
   export default{
     name: 'aditionalInputBox',
     components: {
       custominputselect: CustomInputSelect,
-      custominputtext: CustomInputText
+      custominputtext: CustomInputText,
     },
-    data(){
+    data() {
       return {
-        customTextInputs:[
+        customTextInputs: [
         /*
           {
             labelname:'label-0',
@@ -36,41 +36,47 @@ div
           }
         */
         ],
-        customSelectInputs:[]
+        customSelectInputs: [],
       }
     },
-    methods:{
-      showAlert(){
-        alert("hola desde" + this.textContent);
+    methods: {
+      showAlert() {
+        // alert(`hola desde ${this.textContent}`)
       },
-      addTextInput(counter){
+      addTextInput(counter) {
         this.customTextInputs.push(
           {
-            labelname:'labelname-'+counter,
-            labelplaceholder:'labelplaceholder-'+counter,
-            name:'name-'+counter,
-            placeholder:'placeholder-'+counter,
-            id:'counter'
-          }
+            labelname: `labelname-${counter}`,
+            labelplaceholder: `labelplaceholder-${counter}`,
+            name: `name-${counter}`,
+            placeholder: `placeholder-${counter}`,
+            id: counter,
+          },
         )
       },
-      addSelectInput(counter){
+      addSelectInput(counter) {
         this.customSelectInputs.push(
           {
-            labelname:'labelname-'+counter,
-            labelplaceholder:'labelplaceholder-'+counter,
-            name:'name-'+counter,
-            id:'counter'
-          }
+            labelname: `labelname-${counter}`,
+            labelplaceholder: `labelplaceholder-${counter}`,
+            name: `name-${counter}`,
+            id: counter,
+          },
         )
-      }
-
-
-    }
-
+      },
+    },
   }
 
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+
+.newfieldlink{
+  text-align: right;
+}
+
+.newfieldlink a{
+  margin-right: 1rem;
+  display: inline-block;
+}
 
 </style>
