@@ -19,6 +19,10 @@ For detailed explanation on how things work, consult the [docs for vue-loader](h
 
 ## TODO:
 
-* Generación de etiquetas para nuevos campos customizados.
-* Añadir opción de eliminar campos customizados que se hayan agregado
+* INCOMPLETO: Añadir opción de eliminar campos customizados que se hayan agregado
+* Completar los selectores desde una función asincrónica.
+* Esconder las opciones cuando "No contiene set este marcada"
+
+
+
 

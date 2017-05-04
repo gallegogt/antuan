@@ -2,15 +2,29 @@
 
 div
 
-  custominputselect( v-for='input in customSelectInputs' v-bind:labelname='input.labelname' v-bind:labelplaceholder='input.labelplaceholder' v-bind:name='input.name' v-bind:key='input.id' )
-  custominputtext( v-for='input in customTextInputs' v-bind:labelname='input.labelname' v-bind:labelplaceholder='input.labelplaceholder' v-bind:name='input.name' v-bind:placeholder='input.placeholder' v-bind:key='input.id' )
+  custominputselect(v-for='input in customSelectInputs'
+    v-bind:labelname='input.labelname'
+    v-bind:labelplaceholder='input.labelplaceholder'
+    v-bind:name='input.name' v-bind:key='input.id'
+    v-on:removeSelect='removeSelect'
+    )
+  custominputtext(v-for='input in customTextInputs'
+    v-bind:labelname='input.labelname'
+    v-bind:labelplaceholder='input.labelplaceholder'
+    v-bind:name='input.name'
+    v-bind:placeholder='input.placeholder'
+    v-bind:key='input.id'
+    )
+
+
 
   .row
     .newfieldlink
-        a(v-if="isSet" @click='addSelectInput("set")') + ítems desde columna
-        a(v-if="isSet" @click='addTextInput("set")') + ítems personalizado
-        a(v-if="!isSet" @click='addSelectInput("box")') + ítems desde columna
-        a(v-if="!isSet" @click='addTextInput("box")') + ítems personalizado
+      a(v-if="isSet" @click='addSelectInput("set")') + ítems desde columna
+      a(v-if="isSet" @click='addTextInput("set")') + ítems personalizado
+
+      a(v-if="!isSet" @click='addSelectInput("box")') + ítems desde columna
+      a(v-if="!isSet" @click='addTextInput("box")') + ítems personalizado
 
 
 
@@ -23,7 +37,7 @@ div
 
   export default{
     name: 'aditionalInputBox',
-    props: { isSet: Boolean },
+    props: { isSet: String },
     components: {
       custominputselect: CustomInputSelect,
       custominputtext: CustomInputText,
@@ -68,6 +82,11 @@ div
             id: `${section}-${this.counter}`,
           },
         )
+      },
+      removeSelect(element) {
+        this.customSelectInputs
+          .splice(
+              this.customSelectInputs.indexOf(element), 1)
       },
     },
   }

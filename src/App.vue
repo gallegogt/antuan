@@ -26,7 +26,7 @@
         inputselect(name='agruparpor_col' labeltext='Agrupar por')
         inputselect(name='correlativo_col' labeltext='Nº Correlativo')
 
-      aditionalsetinputs
+      custominputsbox(isSet="true")
 
       p
         b Define ítems incluidos en el set
@@ -36,7 +36,7 @@
       inputtext(name="destinatario" value="" labeltext="Destinario" placeholder="")
       inputtext(name="orden_compra" value="" labeltext="Orden de Compra" placeholder="")
 
-      aditionalsetinputs
+      custominputsbox(section="false")
 
   .button-section
     button.step-1.siguiente(v-show='isVisibleSetp1' @click='toggle') Siguiente >>
@@ -52,14 +52,14 @@
 import InputSelect from './components/InputSelect'
 import InputText from './components/InputText'
 
-import AditionalSetInputs from './components/AditionalSetInputs'
+import CustomInputsBox from './components/CustomInputsBox'
 
 export default {
   name: 'app',
   components: {
     inputselect: InputSelect,
     inputtext: InputText,
-    aditionalsetinputs: AditionalSetInputs,
+    custominputsbox: CustomInputsBox,
   },
   data() {
     return {
