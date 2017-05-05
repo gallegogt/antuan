@@ -3,17 +3,19 @@
 div
 
   custominputselect(v-for='input in customSelectInputs'
-    v-bind:labelname='input.labelname'
     v-bind:labelplaceholder='input.labelplaceholder'
-    v-bind:name='input.name' v-bind:key='input.id'
-    v-on:removeSelect='removeSelect'
+    v-bind:labelvalue.sync='input.labelvalue'
+    v-bind:value.sync='input.value'
+    v-bind:key='input.id'
+    v-on:removeSelect='removeSelect(input)'
     )
   custominputtext(v-for='input in customTextInputs'
-    v-bind:labelname='input.labelname'
     v-bind:labelplaceholder='input.labelplaceholder'
-    v-bind:name='input.name'
+    v-bind:labelvalue.sync='input.labelvalue'
     v-bind:placeholder='input.placeholder'
+    v-bind:value.sync='input.value'
     v-bind:key='input.id'
+    v-on:removeText='removeText(input)'
     )
 
 
@@ -60,33 +62,38 @@ div
       }
     },
     methods: {
-      addTextInput(section) {
-        this.counter = this.counter + 1
+      addTextInput() {
         this.customTextInputs.push(
           {
-            labelname: `labelname-${section}-${this.counter}`,
-            labelplaceholder: `labelplaceholder-${section}-${this.counter}`,
-            name: `name-${section}-${this.counter}`,
-            placeholder: `placeholder-${section}-${this.counter}`,
-            id: `${section}-${this.counter}`,
+            labelplaceholder: 'Título ítem',
+            labelvalue: '',
+            placeholder: 'Valor ítem',
+            value: '',
+            id: Date.now(),
           },
         )
       },
-      addSelectInput(section) {
-        this.counter = this.counter + 1
+      addSelectInput() {
         this.customSelectInputs.push(
           {
-            labelname: `labelname-${section}-${this.counter}`,
-            labelplaceholder: `labelplaceholder-${section}-${this.counter}`,
-            name: `name-${section}-${this.counter}`,
-            id: `${section}-${this.counter}`,
+            labelplaceholder: 'Título ítem',
+            labelvalue: '',
+            value: '',
+            id: Date.now(),
           },
         )
       },
       removeSelect(element) {
+        console.log('removeSelect: ', element)
         this.customSelectInputs
           .splice(
               this.customSelectInputs.indexOf(element), 1)
+      },
+      removeText(element) {
+        console.log('removeText: ', element)
+        this.customTextInputs
+          .splice(
+              this.customTextInputs.indexOf(element), 1)
       },
     },
   }

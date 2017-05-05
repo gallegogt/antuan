@@ -19,7 +19,7 @@ For detailed explanation on how things work, consult the [docs for vue-loader](h
 
 ## TODO:
 
-* INCOMPLETO: Añadir opción de eliminar campos customizados que se hayan agregado
+* Obtener el valor seleccionado desde los campos customizados
 * Completar los selectores desde una función asincrónica.
 * Esconder las opciones cuando "No contiene set este marcada"
 

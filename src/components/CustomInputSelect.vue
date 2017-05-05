@@ -1,8 +1,13 @@
 <template lang="pug">
   .row
-    input.custom-input-title(v-bind:name='labelname' v-bind:placeholder='labelplaceholder')
-    select(v-bind:name='name')
-      option(v-for="option in options" v-bind:value='option.value') {{ option.optionLabel }}
+    input.custom-input-title(
+      v-bind:value='labelvalue'
+      v-bind:placeholder='labelplaceholder'
+      )
+    select
+      option(
+        v-for="option in options"
+        v-bind:value='option.value') {{ option.optionLabel }}
     span.delete(@click='remove') x
 
 </template>
@@ -12,9 +17,9 @@
 export default {
   name: 'inputselect',
   props: {
-    labelname: String,
+    labelvalue: String,
     labelplaceholder: String,
-    name: String,
+    value: String,
   },
   data() {
     return {
@@ -32,7 +37,7 @@ export default {
   },
   methods: {
     remove() {
-      this.$emit('removeSelect', this)
+      this.$emit('removeSelect')
     },
   },
 }
