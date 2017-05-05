@@ -11,46 +11,41 @@
       v-on:change="updateValue()"
       )
     span.delete(@click='remove') x
-
 </template>
 
 <script>
-
-export default {
-  name: 'inputselect',
-  props: {
-    labelplaceholder: String,
-    labelvalue: String,
-    placeholder: String,
-    value: String,
-  },
-  data() {
-    return {
-      modelLabelValue: '',
-      modelValue: '',
-    }
-  },
-  methods: {
-    updateLabelValue() {
-      this.$emit('update:modelLabelValue', this.labelValue)
+  export default {
+    name: 'inputselect',
+    props: {
+      labelplaceholder: String,
+      labelvalue: String,
+      placeholder: String,
+      value: String,
     },
-    updateValue() {
-      this.$emit('update:modelValue', this.value)
+    data() {
+      return {
+        modelLabelValue: '',
+        modelValue: '',
+      }
     },
-    remove() {
-      this.$emit('removeText')
+    methods: {
+      updateLabelValue() {
+        this.$emit('update:modelLabelValue', this.labelValue)
+      },
+      updateValue() {
+        this.$emit('update:modelValue', this.value)
+      },
+      remove() {
+        this.$emit('removeText')
+      },
     },
-  },
-}
+  }
 
 </script>
 
 <style lang="scss">
-
   .custom-input-title {
     width: 180px;
     margin-right: 20px;
   }
-
-
 </style>
