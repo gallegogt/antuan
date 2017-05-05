@@ -30,26 +30,27 @@
       .input-box.step-2(v-show='!isVisibleSetp1')
         p
           b Define ítems incluidos en el set
-
         .row
           label(for='notContainsSet')
             | No contiene sets
           input#no-set(name='notContainsSet' type='checkbox')
 
         .set-info
-        //
           column-select-component(
-            :value.sync = "agruparpor_col"
+            :value.sync = "set.groupBy"
             label = "Agrupar por"
             :sheet-columns = "sheetColumns"
           )
           column-select-component(
-            :value.sync = "correlativo_col"
+            :value.sync = "set.correlativeNumber"
             label = "Nº Correlativo"
             :sheet-columns = "sheetColumns"
           )
 
-        custominputsbox(isSet="true")
+        custom-items-component(
+          :items.sync="set.customItems"
+          :sheet-columns="sheetColumns"
+        )
 
         p
           b Define ítems incluidos en el set
@@ -58,8 +59,11 @@
         inputtext(name="proveedor" value="Antuan Juri S.A." label="Proveedor" placeholder="")
         inputtext(name="destinatario" value="" label="Destinario" placeholder="")
         inputtext(name="orden_compra" value="" label="Orden de Compra" placeholder="")
-
-        custominputsbox(section="false")
+      //
+        custom-items-component(
+          :items.sync="box.customItems"
+          :sheet-columns="sheetColumns"
+        )
 
     .button-section
       button.step-1.siguiente(v-show='isVisibleSetp1' @click='toggle')
@@ -78,8 +82,9 @@
 
 <script>
   import ColumnSelectComponent from './components/ColumnSelectComponent'
+  import CustomItemsComponent from './components/CustomItemsComponent'
+
   import InputText from './components/InputText'
-  import CustomInputsBox from './components/CustomInputsBox'
   import Antuan from './utils/antuan'
 
   const antuanStore = new Antuan()
@@ -89,10 +94,11 @@
    */
   export default {
     name: 'app',
+    // resgistro de los componentes
     components: {
       'column-select-component': ColumnSelectComponent,
+      'custom-items-component': CustomItemsComponent,
       inputtext: InputText,
-      custominputsbox: CustomInputsBox,
     },
     /**
      * Deveuele el objeto data que el componente utiliza
@@ -111,9 +117,27 @@
         // columnas es -1 para oblicar a los usuarios a seleccionar
         // una columna
         clothingInfo: {
-          colClothing: -1,
-          colSize: -1,
-          colAmount: -1,
+          colClothing: '-1',
+          colSize: '-1',
+          colAmount: '-1',
+        },
+        // objeto Set
+        set: {
+          // Un identificador para el set
+          id: Date.now(),
+          // Columan que se usará para agrupar
+          groupBy: '-1',
+          // Columna que se usará como número correlativo
+          correlativeNumber: '-1',
+          // Arreglo de elementos personalizados que tendrá una
+          //  estructura como la siguiente:
+          // [{
+          //    id: String,
+          //    label: String,
+          //    value: String,
+          //    isRelateByColumn: Bool
+          // }, ...]
+          customItems: [],
         },
       }
     },
@@ -148,6 +172,7 @@
         return JSON.stringify({
           sheetColumns: this.sheetColumns,
           clothingInfo: this.clothingInfo,
+          set: this.set,
         })
       },
     },
@@ -159,7 +184,7 @@
   .code {
     display: block;
     background: #e2e0e4;
-    font-size: 2rem;
+    font-size: 0.3rem;
     text-align: justify;
     pre {
       white-space: -moz-pre-wrap; /* Mozilla, supported since 1999 */
