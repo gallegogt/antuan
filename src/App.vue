@@ -53,13 +53,29 @@
         )
 
         p
-          b Define ítems incluidos en el set
+          b Define ítems incluidos en el Box
 
-        inputtext(name="setporcaja" value="1" label="Cantidad de set por caja" placeholder="")
-        inputtext(name="proveedor" value="Antuan Juri S.A." label="Proveedor" placeholder="")
-        inputtext(name="destinatario" value="" label="Destinario" placeholder="")
-        inputtext(name="orden_compra" value="" label="Orden de Compra" placeholder="")
-      //
+        input-text-component(
+          :value.sync="box.setsAmount"
+          label-text="Cantidad de set por caja"
+          placeholder="1"
+        )
+        input-text-component(
+          :value.sync="box.provider"
+          label-text="Proveedor"
+          placeholder="Antuan Juri S.A."
+        )
+        input-text-component(
+          :value.sync="box.receiver"
+          label-text="Destinario"
+          placeholder="Destinario"
+        )
+        input-text-component(
+          :value.sync="box.purchaseOrder"
+          label-text="Orden de Compra"
+          placeholder="Orden de Compra"
+        )
+
         custom-items-component(
           :items.sync="box.customItems"
           :sheet-columns="sheetColumns"
@@ -84,7 +100,7 @@
   import ColumnSelectComponent from './components/ColumnSelectComponent'
   import CustomItemsComponent from './components/CustomItemsComponent'
 
-  import InputText from './components/InputText'
+  import InputTextComponent from './components/InputTextComponent'
   import Antuan from './utils/antuan'
 
   const antuanStore = new Antuan()
@@ -98,7 +114,7 @@
     components: {
       'column-select-component': ColumnSelectComponent,
       'custom-items-component': CustomItemsComponent,
-      inputtext: InputText,
+      'input-text-component': InputTextComponent,
     },
     /**
      * Deveuele el objeto data que el componente utiliza
@@ -129,6 +145,27 @@
           groupBy: '-1',
           // Columna que se usará como número correlativo
           correlativeNumber: '-1',
+          // Arreglo de elementos personalizados que tendrá una
+          //  estructura como la siguiente:
+          // [{
+          //    id: String,
+          //    label: String,
+          //    value: String,
+          //    isRelateByColumn: Bool
+          // }, ...]
+          customItems: [],
+        },
+        box: {
+          // Un identificador para el set
+          id: Date.now(),
+          // Cantidad de Sets por caja
+          setsAmount: 1,
+          // Proveedor
+          provider: '',
+          // Destinatario
+          receiver: '',
+          // Orden de compra
+          purchaseOrder: '',
           // Arreglo de elementos personalizados que tendrá una
           //  estructura como la siguiente:
           // [{
@@ -173,6 +210,7 @@
           sheetColumns: this.sheetColumns,
           clothingInfo: this.clothingInfo,
           set: this.set,
+          box: this.box,
         })
       },
     },
