@@ -11,13 +11,13 @@ export default class Antuan {
     this.sheetData = {
       sheetColumns: [{
         label: 'Column 1',
-        index: 1,
+        index: '1',
       }, {
         label: 'Column 2',
-        index: 2,
+        index: '2',
       }, {
         label: 'Column 3',
-        index: 3,
+        index: '3',
       }],
     }
   }

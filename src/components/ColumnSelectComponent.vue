@@ -1,11 +1,14 @@
 <template lang="pug">
   .column-select-component
-    label
+    label(v-if="showLabel")
       | {{ label }}
-    select(v-model="currentValue" :change="onChangeValue()")
+    select(
+      v-model="currentValue"
+      @change="onChangeValue"
+      )
       option(value="-1")
         | Seleccione la columna
-      option(v-for="option in sheetColumns" v-bind:value='option.index')
+      option(v-for="option in sheetColumns" v-bind:value="option.index")
         | {{ option.label }}
 </template>
 
@@ -29,14 +32,15 @@
       // Propiedad requerida label para el component
       // Texto que define el label del componente
       label: {
-        required: true,
+        required: false,
         type: String,
+        default: '',
       },
       // Propiedad requerida Valor
       // Elemento donde el padre le pondrá un valor por defecto
       value: {
         required: true,
-        type: Number,
+        type: String,
       },
     },
     /**
@@ -47,14 +51,14 @@
      */
     data() {
       return {
-        currentValue: '',
+        currentValue: '-1',
       }
     },
     /**
      * Evento que se emite cuando el component está montado
      */
     mounted() {
-      this.currentValue = this.value
+      this.currentValue = this.value || '-1'
     },
     // Objeto que contiene todos las funciones a ejecutar por
     // el componente
@@ -63,7 +67,19 @@
        * Se ejecuta cada vez que se cambia el valor del select
        */
       onChangeValue() {
-        this.$emit('update:value', parseInt(this.currentValue, 10))
+        this.$emit('update:value', this.currentValue)
+        this.$emit('change', this.currentValue)
+      },
+    },
+    // Computed Values
+    computed: {
+      /**
+       * Devuelve True si el label no es vacío
+       *
+       * @return {bool} Devuelve true si el label no es vacío
+       */
+      showLabel() {
+        return this.label.length > 0
       },
     },
   }
