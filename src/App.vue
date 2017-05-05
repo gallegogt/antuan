@@ -11,10 +11,21 @@
         p
           b Selecciona las columnas en las que se ubican las prendas, la talla y la cantidad:
 
-        inputselect(name='prenda_col' labeltext='Prendas')
-        inputselect(name='talla_col' labeltext='Talla')
-        inputselect(name='cantidad_col' labeltext='Cantidad')
-
+        column-select-component(
+          :value.sync = "clothingInfo.colClothing"
+          label = "Prendas"
+          :sheet-columns = "sheetColumns"
+        )
+        column-select-component(
+          :value.sync = "clothingInfo.colSize"
+          label = "Talla"
+          :sheet-columns = "sheetColumns"
+        )
+        column-select-component(
+          :value.sync = "clothingInfo.colAmount"
+          label = "Cantidad"
+          :sheet-columns = "sheetColumns"
+        )
 
       .input-box.step-2(v-show='!isVisibleSetp1')
         p
@@ -26,18 +37,27 @@
           input#no-set(name='notContainsSet' type='checkbox')
 
         .set-info
-          inputselect(name='agruparpor_col' labeltext='Agrupar por')
-          inputselect(name='correlativo_col' labeltext='Nº Correlativo')
+        //
+          column-select-component(
+            :value.sync = "agruparpor_col"
+            label = "Agrupar por"
+            :sheet-columns = "sheetColumns"
+          )
+          column-select-component(
+            :value.sync = "correlativo_col"
+            label = "Nº Correlativo"
+            :sheet-columns = "sheetColumns"
+          )
 
         custominputsbox(isSet="true")
 
         p
           b Define ítems incluidos en el set
 
-        inputtext(name="setporcaja" value="1" labeltext="Cantidad de set por caja" placeholder="")
-        inputtext(name="proveedor" value="Antuan Juri S.A." labeltext="Proveedor" placeholder="")
-        inputtext(name="destinatario" value="" labeltext="Destinario" placeholder="")
-        inputtext(name="orden_compra" value="" labeltext="Orden de Compra" placeholder="")
+        inputtext(name="setporcaja" value="1" label="Cantidad de set por caja" placeholder="")
+        inputtext(name="proveedor" value="Antuan Juri S.A." label="Proveedor" placeholder="")
+        inputtext(name="destinatario" value="" label="Destinario" placeholder="")
+        inputtext(name="orden_compra" value="" label="Orden de Compra" placeholder="")
 
         custominputsbox(section="false")
 
@@ -49,37 +69,108 @@
       button.step-2.generar
         | Generar
 
+      span.code
+        pre
+          | {{ dataAsJSON }}
+
+
 </template>
 
 <script>
-  // import CustomInputSelect from './components/CustomInputSelect'
-  // import CustomInputText from './components/CustomInputText'
-  import InputSelect from './components/InputSelect'
+  import ColumnSelectComponent from './components/ColumnSelectComponent'
   import InputText from './components/InputText'
-
   import CustomInputsBox from './components/CustomInputsBox'
+  import Antuan from './utils/antuan'
 
+  const antuanStore = new Antuan()
+
+  /**
+   * Componente Principal
+   */
   export default {
     name: 'app',
     components: {
-      inputselect: InputSelect,
+      'column-select-component': ColumnSelectComponent,
       inputtext: InputText,
       custominputsbox: CustomInputsBox,
     },
+    /**
+     * Deveuele el objeto data que el componente utiliza
+     * para almacenar sus información
+     *
+     * @return {Object}
+     */
     data() {
       return {
+        // TODO: Mejorar nombre de la variable
         isVisibleSetp1: true,
+        // Listados de las columnas extraidas del GS SpreedSheet
+        sheetColumns: [],
+        // objeto que almacen las columnas para la ubicación
+        // de las prendas, los valores iniciales de dichas
+        // columnas es -1 para oblicar a los usuarios a seleccionar
+        // una columna
+        clothingInfo: {
+          colClothing: -1,
+          colSize: -1,
+          colAmount: -1,
+        },
       }
     },
+    /**
+      * Evento que se emite cuando el component está montado
+      */
+    mounted() {
+      // obtenemos los datos iniciales desde el servidor
+      antuanStore.getGsSheetData().then((sheetColumns) => {
+        this.sheetColumns = sheetColumns
+      })
+    },
+    // Objeto que contiene todos las funciones a ejecutar por
+    // el componente
     methods: {
+      /**
+       * TODO: Mejorar nombre
+       */
       toggle() {
         this.isVisibleSetp1 = !this.isVisibleSetp1
+      },
+    },
+    // Computed Values
+    computed: {
+      /**
+       * Devuelve una cadena de texto que representa el modelo en forma
+       * de JSON
+       *
+       * @return {String} Modelo en forma de JSON
+       */
+      dataAsJSON() {
+        return JSON.stringify({
+          sheetColumns: this.sheetColumns,
+          clothingInfo: this.clothingInfo,
+        })
       },
     },
   }
 </script>
 
 <style lang="scss">
+
+  .code {
+    display: block;
+    background: #e2e0e4;
+    font-size: 2rem;
+    text-align: justify;
+    pre {
+      white-space: -moz-pre-wrap; /* Mozilla, supported since 1999 */
+      white-space: -pre-wrap; /* Opera */
+      white-space: -o-pre-wrap; /* Opera */
+      white-space: pre-wrap; /* CSS3 - Text module (Candidate Recommendation) http://www.w3.org/TR/css3-text/#white-space */
+      word-wrap: break-word; /* IE 5.5+ */
+    }
+  }
+
+
   .button-section {
     /*background-color: #00FFFF;*/
     position: absolute;
