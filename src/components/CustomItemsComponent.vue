@@ -50,7 +50,7 @@
     },
     // Registro de componentes asociado a este componente
     components: {
-      'custom-item-component': CustomItemComponent,
+      CustomItemComponent,
     },
     /**
      * Deveuele el objeto data que el componente utiliza

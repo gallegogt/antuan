@@ -67,8 +67,9 @@
        * Se ejecuta cada vez que se cambia el valor del select
        */
       onChangeValue() {
-        this.$emit('update:value', this.currentValue)
-        this.$emit('change', this.currentValue)
+        const value = this.currentValue
+        this.$emit('update:value', value)
+        this.$emit('change', value)
       },
     },
     // Computed Values

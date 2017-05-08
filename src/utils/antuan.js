@@ -35,4 +35,17 @@ export default class Antuan {
       }, 100)
     })
   }
+  /**
+   * @param {Object} info Información para generar los carteles
+   * @return {Promise} Devuelve un Promise
+   */
+  static generatePosters(info) {
+    return new Promise((resolve /* reject*/) => {
+      // TODO: Reemplazar dicho código por el código que haga
+      //       referencia al la petición al
+      setTimeout(() => {
+        resolve(info)
+      }, 1000)
+    })
+  }
 }

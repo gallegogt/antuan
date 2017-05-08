@@ -29,7 +29,7 @@
     name: 'CustomItemComponent',
     // resgistro de los componentes
     components: {
-      'column-select-component': ColumnSelectComponent,
+      ColumnSelectComponent,
     },
     // propiedades que se comportan como un attributos
     // del componente en el renderizado del HTML

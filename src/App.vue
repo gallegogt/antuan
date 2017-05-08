@@ -10,42 +10,83 @@
       .input-box.step-1(v-show='isVisibleSetp1')
         p
           b Selecciona las columnas en las que se ubican las prendas, la talla y la cantidad:
+        div
+          column-select-component(
+            :value.sync = "clothingInfo.colClothing"
+            label = "Prenda"
+            :sheet-columns = "sheetColumns"
+            v-validate="'required|not_in:-1'"
+            data-vv-scope="scope-step-1"
+            data-vv-value-path="value"
+            data-vv-name="clothing"
+            :has-error="errors.has('scope-step-1.clothing')"
+          )
+          span(v-show="errors.has('scope-step-1.clothing')" class="help is-danger")
+            | {{ errors.first('scope-step-1.clothing') }}
+        div
+          column-select-component(
+            :value.sync = "clothingInfo.colSize"
+            label = "Talla"
+            :sheet-columns = "sheetColumns"
+            v-validate="'required|not_in:-1'"
+            data-vv-scope="scope-step-1"
+            data-vv-value-path="value"
+            data-vv-name="size"
+            :has-error="errors.has('scope-step-1.size')"
+          )
+          span(v-show="errors.has('scope-step-1.size')" class="help is-danger")
+              | {{ errors.first('scope-step-1.size') }}
 
-        column-select-component(
-          :value.sync = "clothingInfo.colClothing"
-          label = "Prendas"
-          :sheet-columns = "sheetColumns"
-        )
-        column-select-component(
-          :value.sync = "clothingInfo.colSize"
-          label = "Talla"
-          :sheet-columns = "sheetColumns"
-        )
-        column-select-component(
-          :value.sync = "clothingInfo.colAmount"
-          label = "Cantidad"
-          :sheet-columns = "sheetColumns"
-        )
+        div
+          column-select-component(
+            :value.sync = "clothingInfo.colAmount"
+            label = "Cantidad"
+            :sheet-columns = "sheetColumns"
+            v-validate="'required|not_in:-1'"
+            data-vv-scope="scope-step-1"
+            data-vv-value-path="value"
+            data-vv-name="amount"
+            :has-error="errors.has('scope-step-1.amount')"
+          )
+          span(v-show="errors.has('scope-step-1.amount')" class="help is-danger")
+              | {{ errors.first('scope-step-1.amount') }}
 
-      .input-box.step-2(v-show='!isVisibleSetp1')
+      .input-box.step-2(v-show='!isVisibleSetp1' data-vv-scope="scope-step-2")
         p
-          b Define ítems incluidos en el set
+          b Define ítems incluidos en el Set
         .row
           label(for='notContainsSet')
             | No contiene sets
-          input#no-set(name='notContainsSet' type='checkbox')
+          input#no-set(name='notContainsSet' type='checkbox' v-model="set.notContainsSet")
 
         .set-info
-          column-select-component(
-            :value.sync = "set.groupBy"
-            label = "Agrupar por"
-            :sheet-columns = "sheetColumns"
-          )
-          column-select-component(
-            :value.sync = "set.correlativeNumber"
-            label = "Nº Correlativo"
-            :sheet-columns = "sheetColumns"
-          )
+          div
+            column-select-component(
+              :value.sync = "set.groupBy"
+              label = "Agrupar por"
+              :sheet-columns = "sheetColumns"
+              v-validate="'required|not_in:-1'"
+              data-vv-scope="scope-step-2"
+              data-vv-value-path="value"
+              data-vv-name="gropuBy"
+              :has-error="errors.has('scope-step-2.gropuBy')"
+            )
+            span(v-show="errors.has('scope-step-2.gropuBy')" class="help is-danger")
+              | {{ errors.first('scope-step-2.gropuBy') }}
+
+          div
+            column-select-component(
+              :value.sync = "set.correlativeNumber"
+              label = "Nº Correlativo"
+              :sheet-columns = "sheetColumns"
+              v-validate="'required|not_in:-1'"
+              data-vv-scope="scope-step-2"
+              data-vv-value-path="value"
+              data-vv-name="correlativeNumber"
+              :has-error="errors.has('scope-step-2.correlativeNumber')"
+            )
+            span(v-show="errors.has('scope-step-2.correlativeNumber')" class="help is-danger")
+              | {{ errors.first('scope-step-2.correlativeNumber') }}
 
         custom-items-component(
           :items.sync="set.customItems"
@@ -55,26 +96,56 @@
         p
           b Define ítems incluidos en el Box
 
-        input-text-component(
-          :value.sync="box.setsAmount"
-          label-text="Cantidad de set por caja"
-          placeholder="1"
-        )
-        input-text-component(
-          :value.sync="box.provider"
-          label-text="Proveedor"
-          placeholder="Antuan Juri S.A."
-        )
+        div
+          input-text-component(
+            :value.sync="box.setsAmount"
+            label-text="Cantidad de set por caja"
+            placeholder="1"
+            v-validate="'required|min_value:1'"
+            data-vv-scope="scope-step-2"
+            data-vv-value-path="value"
+            data-vv-name="boxSetsAmount"
+          )
+          span(v-show="errors.has('scope-step-2.boxSetsAmount')" class="help is-danger")
+            | {{ errors.first('scope-step-2.boxSetsAmount') }}
+
+        div
+          input-text-component(
+            :value.sync="box.provider"
+            label-text="Proveedor"
+            placeholder="Antuan Juri S.A."
+            v-validate="'required'"
+            data-vv-scope="scope-step-2"
+            data-vv-value-path="value"
+            data-vv-name="boxProvider"
+          )
+          span(v-show="errors.has('scope-step-2.boxProvider')" class="help is-danger")
+            | {{ errors.first('scope-step-2.boxProvider') }}
+
         input-text-component(
           :value.sync="box.receiver"
           label-text="Destinario"
           placeholder="Destinario"
+          v-validate="'required'"
+          data-vv-scope="scope-step-2"
+          data-vv-value-path="value"
+          data-vv-name="boxReceiver"
         )
+        span(v-show="errors.has('scope-step-2.boxReceiver')" class="help is-danger")
+          | {{ errors.first('scope-step-2.boxReceiver') }}
+
         input-text-component(
           :value.sync="box.purchaseOrder"
           label-text="Orden de Compra"
           placeholder="Orden de Compra"
+          v-validate="'required'"
+          data-vv-scope="scope-step-2"
+          data-vv-value-path="value"
+          data-vv-name="boxPurchaseOrder"
         )
+        span(v-show="errors.has('scope-step-2.boxPurchaseOrder')" class="help is-danger")
+          | {{ errors.first('scope-step-2.boxPurchaseOrder') }}
+
 
         custom-items-component(
           :items.sync="box.customItems"
@@ -82,24 +153,18 @@
         )
 
     .button-section
-      button.step-1.siguiente(v-show='isVisibleSetp1' @click='toggle')
+      button.step-1.siguiente(v-show="isVisibleSetp1" @click="validateData('scope-step-1')")
         | Siguiente >>
-      button.step-2.atras(v-show='!isVisibleSetp1' @click='toggle')
+      button.step-2.atras(v-show="!isVisibleSetp1" @click="validateData('scope-step-2')")
         | << Atrás
-      button.step-2.generar
+      button.step-2.generar(@click="generate")
         | Generar
-
-      span.code
-        pre
-          | {{ dataAsJSON }}
-
-
 </template>
 
 <script>
+  import spanish from 'vee-validate/dist/locale/es' // eslint-disable-line
   import ColumnSelectComponent from './components/ColumnSelectComponent'
   import CustomItemsComponent from './components/CustomItemsComponent'
-
   import InputTextComponent from './components/InputTextComponent'
   import Antuan from './utils/antuan'
 
@@ -112,9 +177,9 @@
     name: 'app',
     // resgistro de los componentes
     components: {
-      'column-select-component': ColumnSelectComponent,
-      'custom-items-component': CustomItemsComponent,
-      'input-text-component': InputTextComponent,
+      ColumnSelectComponent,
+      CustomItemsComponent,
+      InputTextComponent,
     },
     /**
      * Deveuele el objeto data que el componente utiliza
@@ -154,6 +219,8 @@
           //    isRelateByColumn: Bool
           // }, ...]
           customItems: [],
+          // no se requiere set
+          notContainsSet: false,
         },
         box: {
           // Un identificador para el set
@@ -193,26 +260,68 @@
       /**
        * TODO: Mejorar nombre
        */
-      toggle() {
-        this.isVisibleSetp1 = !this.isVisibleSetp1
+      validateData(scope) {
+        this.$validator.validateAll(scope)
+          .then(() => {
+            this.isVisibleSetp1 = !this.isVisibleSetp1
+          })
+          .catch(() => {
+            // TODO: Existe error en el dato
+          })
+      },
+      /**
+       * Función para generar los carteles
+       */
+      generate() {
+        this.$validator.validateAll('scope-step-2')
+          .then(() => {
+            // TODO: Modificar cuando se tengas los objetos reales
+            Antuan.generatePosters(this.info)
+              .then((info) => console.log(info)) // eslint-disable-line
+          })
+          .catch(() => {
+            // TODO: Existe error en el dato
+          })
       },
     },
     // Computed Values
     computed: {
       /**
-       * Devuelve una cadena de texto que representa el modelo en forma
-       * de JSON
+       * Información para poder generar los carteles
        *
-       * @return {String} Modelo en forma de JSON
+       * @return {Object} Objeto con la información requerida
+       *                para generar los carteles
        */
-      dataAsJSON() {
-        return JSON.stringify({
-          sheetColumns: this.sheetColumns,
+      info() {
+        return {
           clothingInfo: this.clothingInfo,
           set: this.set,
           box: this.box,
-        })
+        }
       },
+    },
+    /**
+     * Actualiza los locales para los mensajes de validación de
+     * la applicación
+     */
+    created() {
+      this.$validator.updateDictionary({
+        es: {
+          messages: spanish.messages,
+          attributes: {
+            clothing: 'Prenda',
+            size: 'Talla',
+            amount: 'Cantidad',
+            gropuBy: 'Agrupar por',
+            correlativeNumber: 'Nº Correlativo',
+            boxSetsAmount: 'Cantidad set por cajas',
+            boxProvider: 'Proveedor',
+            boxReceiver: 'Destinatario',
+            boxPurchaseOrder: 'Orden de Compra',
+          },
+        },
+      })
+      this.$validator.setLocale('es')
     },
   }
 </script>
