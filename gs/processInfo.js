@@ -303,12 +303,12 @@ function processInfo() {
   var resumeItem = processResume(data, confData)
 
   // eslint-disable-next-line no-var
-  var signInfo = {
+  var signsInfo = {
     sets: setItems,
     boxes: boxItems,
     resume: resumeItem,
   }
 
   // Logger.log(signInfo)
-  return signInfo
+  return signsInfo
 }
