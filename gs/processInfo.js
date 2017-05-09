@@ -42,31 +42,21 @@ function getCustomItems(rows, customElementsConf) {
   // eslint-disable-next-line
   return customElementsConf.map(function(customElementConf) {
     // TODO: revisar porque no funciona
-    /*
-    var customItem = {}
-    customItem['label'] = customElementConf.label //aca el problema - customElementConf.label
-                                                // It is not a function, it is 'string'
 
-    (customElementConf.isRelativeByColumn)
-    ? customItem['value'] = setRows[0][customElementConf.value - 1]
-    : customItem['value'] = customElementConf.value
+    var customItem = {
+      label: customElementConf.label
+    }
+
+    if (customElementConf.isRelativeByColumn){
+      customItem.value = rows[0][customElementConf.value - 1]
+    } else {
+      customItem.value = customElementConf.value
+    }
+
+    Logger.log(customItem)
 
     return  customItem;
-    */
 
-    // eslint-disable-next-line
-    var label = customElementConf.label
-    // eslint-disable-next-line
-    var value;
-    if (customElementConf.isRelativeByColumn) {
-      value = rows[0][customElementConf.value - 1]
-    } else {
-      value = customElementConf.value
-    }
-    return {
-      label: label,
-      value: value
-    }
   })
 }
 
