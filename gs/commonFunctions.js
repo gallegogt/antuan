@@ -19,7 +19,6 @@ function duplicateRow(row, n) {
 
 /**
 Obtiene la primera columna de una sheet
-@return array
 **/
 // eslint-disable-next-line no-unused-vars
 function sheetColumns() {
@@ -30,8 +29,8 @@ function sheetColumns() {
   // eslint-disable-next-line
   var labels = values[0].map(function(value, index) {
     return {
-      col: index + 1,
-      colLabel: value,
+      index: index + 1,
+      label: value,
     }
   })
   return labels
@@ -58,7 +57,7 @@ function copyTemplateSheets() {
   // eslint-disable-next-line no-undef
   const ss = SpreadsheetApp.getActiveSpreadsheet()
   const sst = SpreadsheetApp.openById('1c3Pu6ROHZBBvXUyOkyJmFDLW6RbSz_KD9hLLCyy_ImA') // eslint-disable-line no-undef
-
+  // TODO: eliminar encaso de que existan hojas con este nombre
   // copia los sheets del template al spreadsheet actual.
   sst.getSheetByName('set').copyTo(ss).setName('set')
   sst.getSheetByName('caja').copyTo(ss).setName('caja')

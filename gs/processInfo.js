@@ -36,8 +36,6 @@ function groupClothes(rows, clothingPos, sizePos, quantityPos) {
   return reducedArray
 }
 
-
-
 function getCustomItems(rows, customElementsConf) {
   // eslint-disable-next-line
   return customElementsConf.map(function(customElementConf) {
@@ -144,8 +142,6 @@ function processBoxes(sets, confData) {
   return boxes
 }
 
-
-
 function processSets(data, confData) {
   // extrae columna groupBy
   // eslint-disable-next-line
@@ -198,7 +194,6 @@ function processSets(data, confData) {
 
   return sets
 }
-
 
 
 // eslint-disable-next-line no-unused-vars
