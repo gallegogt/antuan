@@ -50,22 +50,26 @@ export default class Antuan {
   static async generatePosters(info) {
     // return new Promise((resolve /* reject*/) => {
 
+    // Elimina las hojas en caso de que existan
+    await Antuan.deleteGSSignSheets()
+
     // Copia hojas desde un template
-    await Antuan.copyGSTemplates()
+    await Antuan.copyGSTemplates(info.set.notContainsSet)
 
     // Obtiene los datos desde la hoja activa
     const data = await Antuan.getDataFromSpreadsheet()
 
-    console.log('data: ', data)
-    console.log('info: ', info)
     // Procesar la información
     const signsInfo = Antuan.processInfo(data, info)
 
-    console.log('data: ', signsInfo)
     // crear las etiquetas
-    await Antuan.createGSSetSigns(signsInfo.sets)
-    await Antuan.createGSBoxSigns(signsInfo.boxes)
-    await Antuan.createGSResumeSign(signsInfo.resume)
+    if (info.set.notContainsSet) {
+      await Antuan.createGSBoxSigns(signsInfo.boxes)
+    } else {
+      await Antuan.createGSSetSigns(signsInfo.sets)
+      await Antuan.createGSBoxSigns(signsInfo.boxes)
+      await Antuan.createGSResumeSign(signsInfo.resume)
+    }
 
       // TODO: Reemplazar dicho código por el código que haga
       //       referencia al la petición al
@@ -77,15 +81,25 @@ export default class Antuan {
    // })
   }
 
+  /**
+   * @return {Promise} Devuelve un Promise
+   */
+  static deleteGSSignSheets() {
+    return new Promise((resolve /* reject*/) => {
+      google.script.run.withSuccessHandler(() => {
+        resolve()
+      }).deleteSignSheets()
+    })
+  }
 
   /**
    * @return {Promise} Devuelve un Promise
    */
-  static copyGSTemplates() {
+  static copyGSTemplates(notContainsSet) {
     return new Promise((resolve /* reject*/) => {
       google.script.run.withSuccessHandler(() => {
         resolve()
-      }).copyTemplateSheets()
+      }).copyTemplateSheets(notContainsSet)
     })
   }
 
@@ -136,7 +150,10 @@ export default class Antuan {
 
   static groupClothes(rows, clothingPos, sizePos, quantityPos) {
     const reducedArray = []
-    rows.map(row => ({
+    rows.map((row) => {
+      console.log(row[quantityPos])
+      return row
+    }).map(row => ({
       clothing: row[clothingPos],
       size: row[sizePos],
       quantity: parseFloat(row[quantityPos]),
@@ -166,7 +183,7 @@ export default class Antuan {
         label: customElementConf.label,
       }
       // Asigna value
-      if (customElementConf.isRelativeByColumn) {
+      if (customElementConf.isRelateByColumn) {
         customItem.value = rows[0][customElementConf.value - 1]
       } else {
         customItem.value = customElementConf.value
@@ -225,9 +242,19 @@ export default class Antuan {
     const setGroups = []
     let setGroup = []
     let boxCounter = 0
+    let quantitySetPerBox
+
+    // Si no hay sets 'setsAmounts' será igual a la cantidad de sets
+    // y en el servidor se utilizará el template 'caja_no_set'
+    if (!confData.set.notContainsSet) {
+      quantitySetPerBox = confData.box.setsAmount
+    } else {
+      quantitySetPerBox = sets.length
+    }
+
     // Divide el arreglo de sets en sub arreglos
     sets.forEach((set) => {
-      if (boxCounter % confData.box.setsAmount === 0) {
+      if (boxCounter % quantitySetPerBox === 0) {
         setGroup = []
         setGroups.push(setGroup)
       }
@@ -242,7 +269,7 @@ export default class Antuan {
       // Define los items fijos
       box.provider = confData.box.provider
       box.to = confData.box.receiver
-      box.orderNumber = confData.box.purchaseOrde
+      box.orderNumber = confData.box.purchaseOrder
 
       // Define los customItems a partir de la primera fila
       box.customItems = Antuan.getCustomItems(sets[0].rows, confData.box.customItems)

@@ -141,15 +141,20 @@ function extractRawData(rangeClothingNotation) {
 *  Copia el contenido de las hojas 'set', 'caja' y 'resumen' en la plantilla de template
 **/
 // eslint-disable-next-line no-unused-vars
-function copyTemplateSheets() {
+function copyTemplateSheets(notContainsSet) {
   // eslint-disable-next-line no-undef
   const ss = SpreadsheetApp.getActiveSpreadsheet()
   const sst = SpreadsheetApp.openById('1c3Pu6ROHZBBvXUyOkyJmFDLW6RbSz_KD9hLLCyy_ImA') // eslint-disable-line no-undef
 
   // copia los sheets del template al spreadsheet actual.
-  sst.getSheetByName('set').copyTo(ss).setName('set')
-  sst.getSheetByName('caja').copyTo(ss).setName('caja')
-  sst.getSheetByName('resumen').copyTo(ss).setName('resumen')
+  if(notContainsSet){
+    sst.getSheetByName('caja_no_set').copyTo(ss).setName('caja')
+  } else {
+    sst.getSheetByName('set').copyTo(ss).setName('set')
+    sst.getSheetByName('caja').copyTo(ss).setName('caja')
+    sst.getSheetByName('resumen').copyTo(ss).setName('resumen')
+  }
+
 }
 
 /**
@@ -159,9 +164,20 @@ function copyTemplateSheets() {
 function deleteSignSheets() {
   // eslint-disable-next-line no-undef
   const ss = SpreadsheetApp.getActiveSpreadsheet()
-  ss.deleteSheet(ss.getSheetByName('set'))
-  ss.deleteSheet(ss.getSheetByName('caja'))
-  ss.deleteSheet(ss.getSheetByName('resumen'))
+
+  if(ss.getSheetByName('set') !== null) {
+    ss.deleteSheet(ss.getSheetByName('set'))
+  }
+
+  if(ss.getSheetByName('caja') !== null){
+    ss.deleteSheet(ss.getSheetByName('caja'))
+  }
+
+  if(ss.getSheetByName('resumen') !== null){
+    ss.deleteSheet(ss.getSheetByName('resumen'))
+  }
+
+
 }
 
 
@@ -180,7 +196,10 @@ function sheetColumns() {
       index: index + 1,
       label: value,
     }
+  }).filter(function(data){
+    return data.label.trim().length > 0
   })
+
   return labels
 }
 
@@ -312,10 +331,19 @@ function prepareSetRange(range, customItemsSize, clothesSize, replaceKeys) {
       // añade filas a Custom Values
       if (cellRange.getValue() === replaceKeys.CUSTOM_LABEL
          || cellRange.getValue() === replaceKeys.CUSTOM_FIELD) {
-        sheet.insertRowsAfter(cellRange.getRow(), customItemsSize - 1)
-        duplicateRow(cellRange.getRow(), customItemsSize - 1)
-        i += customItemsSize
-        break
+        if(customItemsSize > 1){
+          sheet.insertRowsAfter(cellRange.getRow(), customItemsSize - 1)
+          duplicateRow(cellRange.getRow(), customItemsSize - 1)
+          i += customItemsSize
+          break
+        } else if (customItemsSize < 1) {
+          sheet.deleteRow(cellRange.getRow())
+          i -= 1
+          break
+        }else{
+          break
+        }
+
       }
 
 
@@ -323,10 +351,18 @@ function prepareSetRange(range, customItemsSize, clothesSize, replaceKeys) {
       if (cellRange.getValue() === replaceKeys.CLOTHING
          || cellRange.getValue() === replaceKeys.SIZE
          || cellRange.getValue() === replaceKeys.QUANTITY) {
-        sheet.insertRowsAfter(cellRange.getRow(), clothesSize - 1)
-        duplicateRow(cellRange.getRow(), clothesSize - 1)
-        i += clothesSize
-        break
+        if(clothesSize >1){
+          sheet.insertRowsAfter(cellRange.getRow(), clothesSize - 1)
+          duplicateRow(cellRange.getRow(), clothesSize - 1)
+          i += clothesSize
+          break
+        } else if (clothesSize < 1) {
+          sheet.deleteRow(cellRange.getRow())
+          i -= 1
+          break
+        }else{
+          break
+        }
       }
     }
   }
@@ -514,9 +550,15 @@ function prepareBoxRange(range, customItemsSize, setsSize, clothesSize, replaceK
         if(customItemsSize > 1){
           sheet.insertRowsAfter(cellRange.getRow(), customItemsSize - 1)
           duplicateRow(cellRange.getRow(), customItemsSize - 1)
+          i += customItemsSize
+          break
+        } else if (customItemsSize < 1) {
+          sheet.deleteRow(cellRange.getRow())
+          i -= 1
+          break
+        }else{
+          break
         }
-        i += customItemsSize
-        break
       }
 
        // añade filas a sets
@@ -527,9 +569,16 @@ function prepareBoxRange(range, customItemsSize, setsSize, clothesSize, replaceK
         if(setsSize > 1){
           sheet.insertRowsAfter(cellRange.getRow(), setsSize - 1)
           duplicateRow(cellRange.getRow(), setsSize - 1)
+          i += setsSize
+          break
+        } else if (setsSize < 1) {
+          sheet.deleteRow(cellRange.getRow())
+          i -= 1
+          break
+        }else{
+          break
         }
-        i += setsSize
-        break
+
       }
 
 
@@ -540,9 +589,16 @@ function prepareBoxRange(range, customItemsSize, setsSize, clothesSize, replaceK
         if(clothesSize > 1){
           sheet.insertRowsAfter(cellRange.getRow(), clothesSize - 1)
           duplicateRow(cellRange.getRow(), clothesSize - 1)
+          i += clothesSize
+          break
+         } else if (clothesSize < 1) {
+          sheet.deleteRow(cellRange.getRow())
+          i -= 1
+          break
+        }else{
+          break
         }
-        i += clothesSize
-        break
+
       }
     }
   }
@@ -794,3 +850,5 @@ function createResumeSign(resume) {
   // Elimina etiqueta
   sheet.deleteRows(1, templateRowSize + rowSpace)
 }
+
+
