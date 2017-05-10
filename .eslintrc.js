@@ -40,5 +40,8 @@ module.exports = {
     "quotes": [2, "single"],
     // semicolon omission
     semi: [2, "never"]
+  },
+  "globals": {
+    "google": true
   }
 }
