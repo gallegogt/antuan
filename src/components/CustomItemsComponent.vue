@@ -1,5 +1,5 @@
 <template lang="pug">
-  div
+  .custom-items-component
     custom-item-component(
       v-for="item in itemList"
       :label.sync="item.label"
@@ -9,12 +9,11 @@
       :key="item.id"
       @remove="removeCustomItem(item.id)"
     )
-    .row
-      .newfieldlink
-        a(@click="addNewCustomItem(true)")
-          | + ítems desde columna
-        a(@click="addNewCustomItem(false)")
-          | + ítems personalizado
+    .action-buttons
+      button.action(@click="addNewCustomItem(true)")
+        | + Elementos desde columna
+      button.action(@click="addNewCustomItem(false)")
+        | + Elementos personalizado
 </template>
 
 <script>
@@ -104,12 +103,18 @@
 
 </script>
 <style lang="scss" scoped>
-  .newfieldlink {
-    text-align: right;
+  .custom-items-component {
+    width: 30rem;
+    margin-top: 1rem;
 
-    a {
-      margin-right: 1rem;
-      display: inline-block;
+    .action-buttons {
+      margin-top: 1rem;
+      text-align: right;
+      button {
+        display: inline-block;
+        text-transform: uppercase;
+        font-weight: 400;
+      }
     }
   }
 </style>

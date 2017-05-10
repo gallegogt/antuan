@@ -1,5 +1,5 @@
 <template lang="pug">
-  .input-text-component
+  .input-text-component.inline-group
     label
       | {{ labelText }}
     input(
@@ -57,6 +57,12 @@
   }
 </script>
 
-<style>
+<style lang="scss">
+  .input-text-component {
+    > input {
+      min-width: 8.5rem;
+      height: 2.0rem;
+    }
+  }
 
 </style>

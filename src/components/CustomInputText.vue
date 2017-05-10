@@ -47,5 +47,10 @@
   .custom-input-title {
     width: 180px;
     margin-right: 20px;
+
+    > input {
+      min-width: 8.5rem;
+      height: 1.3rem;
+    }
   }
 </style>

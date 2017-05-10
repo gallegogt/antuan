@@ -1,5 +1,5 @@
 <template lang="pug">
-  .column-select-component
+  .column-select-component.inline-group
     label(v-if="showLabel")
       | {{ label }}
     select(
@@ -86,6 +86,8 @@
   }
 </script>
 
-<style>
-
+<style lang="scss">
+  .column-select-component {
+    margin-top: 0.5rem;
+  }
 </style>
