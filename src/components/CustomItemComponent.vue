@@ -1,23 +1,25 @@
 <template lang="pug">
   .custom-item-component
-    input.custom-input-title(
-      v-model="customLabel"
-      :placeholder="placeholderForLabel"
-      @change="onChangeLabelValue()"
-    )
-    column-select-component(
+    .custom-input-title
+      input(
+        v-model="customLabel"
+        :placeholder="placeholderForLabel"
+        @change="onChangeLabelValue()"
+      )
+    column-select-component.custom-input-value(
       v-if = "isRelateByColumn"
       :value.sync = "customValue"
       :sheet-columns = "sheetColumns"
       @change="onChangeColValue()"
     )
-    input(
-      v-if="!isRelateByColumn"
-      v-model="customValue"
-      :placeholder="placeholderForInput"
-      @change="onChangeColValue()"
-    )
-    span.delete(@click="remove") x
+    .custom-input-value(v-if="!isRelateByColumn")
+      input(
+        v-model="customValue"
+        :placeholder="placeholderForInput"
+        @change="onChangeColValue()"
+      )
+    .custom-item-delete
+      span(@click="remove") x
 </template>
 
 <script>
@@ -107,18 +109,42 @@
 
 <style lang="scss">
   .custom-item-component {
+    display: table;
+    margin-top: 0.5rem;
+
+    .custom-input-title,
+    .custom-input-value,
+    .custom-item-delete {
+      display: table-cell;
+    }
+
+    .custom-input-value {
+      width: 2rem;
+
+      > input {
+        min-width: 8.5rem;
+        height: 2.0rem;
+      }
+    }
+
     .custom-input-title {
-        width: 180px;
-        margin-right: 20px;
+      width: 12rem;
+
+      > input {
+        min-width: 10.5rem;
+        height: 2.0rem;
+      }
     }
 
-    .delete {
-      margin-left: 0.2rem;
-      /*padding-left: 1rem;*/
-    }
-
-    .column-select-component {
-      display: inline-block
+    .custom-item-delete span {
+      margin-left: 0.5rem;
+      text-transform: uppercase;
+      background-color: #d64937;
+      color: white;
+      border-color: #d64937;
+      border-style: solid;
+      width: 1rem;
+      text-align: center;
     }
   }
 </style>

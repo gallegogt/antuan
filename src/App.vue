@@ -1,164 +1,178 @@
 <template lang="pug">
-  #app
-    form#dataform
+  .main-component.ui.segment
+    .step-header
       h3.step-1(v-show='isVisibleSetp1')
         | 1 Identifica las prendas
       h3.step-2(v-show='!isVisibleSetp1')
         | 2 Seleccionemos los ítems de encabezado
       hr
-
+    .step-container
       .input-box.step-1(v-show='isVisibleSetp1')
-        p
-          b Selecciona las columnas en las que se ubican las prendas, la talla y la cantidad:
-        div
-          column-select-component(
-            :value.sync = "clothingInfo.colClothing"
-            label = "Prenda"
-            :sheet-columns = "sheetColumns"
-            v-validate="'required|not_in:-1'"
-            data-vv-scope="scope-step-1"
-            data-vv-value-path="value"
-            data-vv-name="clothing"
-            :has-error="errors.has('scope-step-1.clothing')"
-          )
-          span(v-show="errors.has('scope-step-1.clothing')" class="help is-danger")
-            | {{ errors.first('scope-step-1.clothing') }}
-        div
-          column-select-component(
-            :value.sync = "clothingInfo.colSize"
-            label = "Talla"
-            :sheet-columns = "sheetColumns"
-            v-validate="'required|not_in:-1'"
-            data-vv-scope="scope-step-1"
-            data-vv-value-path="value"
-            data-vv-name="size"
-            :has-error="errors.has('scope-step-1.size')"
-          )
-          span(v-show="errors.has('scope-step-1.size')" class="help is-danger")
-              | {{ errors.first('scope-step-1.size') }}
+        section
+          .header
+            h3
+              | Selecciona las columnas en las que se ubican las prendas, la talla y la cantidad:
+          .container
+            div(:class="{'active-error': errors.has('scope-step-1.clothing')}")
+              column-select-component(
+                :value.sync = "clothingInfo.colClothing"
+                label = "Prenda"
+                :sheet-columns = "sheetColumns"
+                v-validate="'required|not_in:-1'"
+                data-vv-scope="scope-step-1"
+                data-vv-value-path="value"
+                data-vv-name="clothing"
+                :has-error="errors.has('scope-step-1.clothing')"
+              )
+              span(class="help error")
+                | {{ errors.first('scope-step-1.clothing') }}
+            div(:class="{'active-error': errors.has('scope-step-1.size')}")
+              column-select-component(
+                :value.sync = "clothingInfo.colSize"
+                label = "Talla"
+                :sheet-columns = "sheetColumns"
+                v-validate="'required|not_in:-1'"
+                data-vv-scope="scope-step-1"
+                data-vv-value-path="value"
+                data-vv-name="size"
+                :has-error="errors.has('scope-step-1.size')"
+              )
+              span(class="help error")
+                  | {{ errors.first('scope-step-1.size') }}
 
-        div
-          column-select-component(
-            :value.sync = "clothingInfo.colAmount"
-            label = "Cantidad"
-            :sheet-columns = "sheetColumns"
-            v-validate="'required|not_in:-1'"
-            data-vv-scope="scope-step-1"
-            data-vv-value-path="value"
-            data-vv-name="amount"
-            :has-error="errors.has('scope-step-1.amount')"
-          )
-          span(v-show="errors.has('scope-step-1.amount')" class="help is-danger")
-              | {{ errors.first('scope-step-1.amount') }}
+            div(:class="{'active-error': errors.has('scope-step-1.amount')}")
+              column-select-component(
+                :value.sync = "clothingInfo.colAmount"
+                label = "Cantidad"
+                :sheet-columns = "sheetColumns"
+                v-validate="'required|not_in:-1'"
+                data-vv-scope="scope-step-1"
+                data-vv-value-path="value"
+                data-vv-name="amount"
+                :has-error="errors.has('scope-step-1.amount')"
+              )
+              span(class="help error")
+                  | {{ errors.first('scope-step-1.amount') }}
 
       .input-box.step-2(v-show='!isVisibleSetp1' data-vv-scope="scope-step-2")
-        p
-          b Define ítems incluidos en el Set
-        .row
-          label(for='notContainsSet')
-            | No contiene sets
-          input#no-set(name='notContainsSet' type='checkbox' v-model="set.notContainsSet")
+        section
+          .header
+            h3
+              | Define ítems incluidos en el Set
+            div
+              label(for='notContainsSet')
+                | No contiene Sets
+              input#no-set(name='notContainsSet' type='checkbox' v-model="set.notContainsSet")
+          .container(v-if="!set.notContainsSet")
+            div(:class="{'active-error': errors.has('scope-step-2.gropuBy')}")
+              column-select-component(
+                :value.sync = "set.groupBy"
+                label = "Agrupar por"
+                :sheet-columns = "sheetColumns"
+                v-validate="'required|not_in:-1'"
+                data-vv-scope="scope-step-2"
+                data-vv-value-path="value"
+                data-vv-name="gropuBy"
+                :has-error="errors.has('scope-step-2.gropuBy')"
+              )
+              span(class="help error")
+                | {{ errors.first('scope-step-2.gropuBy') }}
 
-        .set-info
-          div
-            column-select-component(
-              :value.sync = "set.groupBy"
-              label = "Agrupar por"
-              :sheet-columns = "sheetColumns"
-              v-validate="'required|not_in:-1'"
-              data-vv-scope="scope-step-2"
-              data-vv-value-path="value"
-              data-vv-name="gropuBy"
-              :has-error="errors.has('scope-step-2.gropuBy')"
+            div(:class="{'active-error': errors.has('scope-step-2.correlativeNumber')}")
+              column-select-component(
+                :value.sync = "set.correlativeNumber"
+                label = "Nº Correlativo"
+                :sheet-columns = "sheetColumns"
+                v-validate="'required|not_in:-1'"
+                data-vv-scope="scope-step-2"
+                data-vv-value-path="value"
+                data-vv-name="correlativeNumber"
+                :has-error="errors.has('scope-step-2.correlativeNumber')"
+              )
+              span(class="help error")
+                | {{ errors.first('scope-step-2.correlativeNumber') }}
+
+            custom-items-component(
+              :items.sync="set.customItems"
+              :sheet-columns="sheetColumns"
             )
-            span(v-show="errors.has('scope-step-2.gropuBy')" class="help is-danger")
-              | {{ errors.first('scope-step-2.gropuBy') }}
+        section
+          .header
+            h3
+              | Define ítems incluidos en el Box
+          .container
+            div(
+              v-if="!set.notContainsSet"
+              :class="{'active-error': errors.has('scope-step-2.boxSetsAmount')}")
+              input-text-component(
+                :value.sync="box.setsAmount"
+                label-text="Cantidad de Sets por caja"
+                placeholder="1"
+                v-validate="'required|min_value:1'"
+                data-vv-scope="scope-step-2"
+                data-vv-value-path="value"
+                data-vv-name="boxSetsAmount"
+              )
+              span(class="help error")
+                | {{ errors.first('scope-step-2.boxSetsAmount') }}
 
-          div
-            column-select-component(
-              :value.sync = "set.correlativeNumber"
-              label = "Nº Correlativo"
-              :sheet-columns = "sheetColumns"
-              v-validate="'required|not_in:-1'"
-              data-vv-scope="scope-step-2"
-              data-vv-value-path="value"
-              data-vv-name="correlativeNumber"
-              :has-error="errors.has('scope-step-2.correlativeNumber')"
+            div(:class="{'active-error': errors.has('scope-step-2.boxProvider')}")
+              input-text-component(
+                :value.sync="box.provider"
+                label-text="Proveedor"
+                placeholder="Antuan Juri S.A."
+                v-validate="'required'"
+                data-vv-scope="scope-step-2"
+                data-vv-value-path="value"
+                data-vv-name="boxProvider"
+              )
+              span(class="help error")
+                | {{ errors.first('scope-step-2.boxProvider') }}
+
+            div(:class="{'active-error': errors.has('scope-step-2.boxReceiver')}")
+              input-text-component(
+                :value.sync="box.receiver"
+                label-text="Destinario"
+                placeholder="Destinario"
+                v-validate="'required'"
+                data-vv-scope="scope-step-2"
+                data-vv-value-path="value"
+                data-vv-name="boxReceiver"
+              )
+              span(class="help error")
+                | {{ errors.first('scope-step-2.boxReceiver') }}
+
+            div(:class="{'active-error': errors.has('scope-step-2.boxPurchaseOrder')}")
+              input-text-component(
+                :value.sync="box.purchaseOrder"
+                label-text="Orden de Compra"
+                placeholder="Orden de Compra"
+                v-validate="'required'"
+                data-vv-scope="scope-step-2"
+                data-vv-value-path="value"
+                data-vv-name="boxPurchaseOrder"
+              )
+              span(v-show="errors.has('scope-step-2.boxPurchaseOrder')" class="help error")
+                | {{ errors.first('scope-step-2.boxPurchaseOrder') }}
+
+            custom-items-component(
+              :items.sync="box.customItems"
+              :sheet-columns="sheetColumns"
             )
-            span(v-show="errors.has('scope-step-2.correlativeNumber')" class="help is-danger")
-              | {{ errors.first('scope-step-2.correlativeNumber') }}
 
-        custom-items-component(
-          :items.sync="set.customItems"
-          :sheet-columns="sheetColumns"
-        )
-
-        p
-          b Define ítems incluidos en el Box
-
-        div
-          input-text-component(
-            :value.sync="box.setsAmount"
-            label-text="Cantidad de set por caja"
-            placeholder="1"
-            v-validate="'required|min_value:1'"
-            data-vv-scope="scope-step-2"
-            data-vv-value-path="value"
-            data-vv-name="boxSetsAmount"
-          )
-          span(v-show="errors.has('scope-step-2.boxSetsAmount')" class="help is-danger")
-            | {{ errors.first('scope-step-2.boxSetsAmount') }}
-
-        div
-          input-text-component(
-            :value.sync="box.provider"
-            label-text="Proveedor"
-            placeholder="Antuan Juri S.A."
-            v-validate="'required'"
-            data-vv-scope="scope-step-2"
-            data-vv-value-path="value"
-            data-vv-name="boxProvider"
-          )
-          span(v-show="errors.has('scope-step-2.boxProvider')" class="help is-danger")
-            | {{ errors.first('scope-step-2.boxProvider') }}
-
-        input-text-component(
-          :value.sync="box.receiver"
-          label-text="Destinario"
-          placeholder="Destinario"
-          v-validate="'required'"
-          data-vv-scope="scope-step-2"
-          data-vv-value-path="value"
-          data-vv-name="boxReceiver"
-        )
-        span(v-show="errors.has('scope-step-2.boxReceiver')" class="help is-danger")
-          | {{ errors.first('scope-step-2.boxReceiver') }}
-
-        input-text-component(
-          :value.sync="box.purchaseOrder"
-          label-text="Orden de Compra"
-          placeholder="Orden de Compra"
-          v-validate="'required'"
-          data-vv-scope="scope-step-2"
-          data-vv-value-path="value"
-          data-vv-name="boxPurchaseOrder"
-        )
-        span(v-show="errors.has('scope-step-2.boxPurchaseOrder')" class="help is-danger")
-          | {{ errors.first('scope-step-2.boxPurchaseOrder') }}
-
-
-        custom-items-component(
-          :items.sync="box.customItems"
-          :sheet-columns="sheetColumns"
-        )
-
-    .button-section
-      button.step-1.siguiente(v-show="isVisibleSetp1" @click="validateData('scope-step-1')")
-        | Siguiente >>
-      button.step-2.atras(v-show="!isVisibleSetp1" @click="validateData('scope-step-2')")
-        | << Atrás
-      button.step-2.generar(@click="generate")
-        | Generar
+    .step-footer
+        button.step-1(v-show="isVisibleSetp1" @click="validateData('scope-step-1')")
+          | Siguiente >>
+        button.step-2(v-show="!isVisibleSetp1" @click="validateData('scope-step-2')")
+          | << Atrás
+        button.step-2.create(@click="generate" :disabled="isVisibleSetp1 || errors.any()")
+          | Generar
+    div(:class="['ui', {active: isLoading}, 'dimmer']")
+      .ui.loader
+  //
+    .code
+      pre
+        | {{ getAsJSON }}
 </template>
 
 <script>
@@ -243,6 +257,8 @@
           // }, ...]
           customItems: [],
         },
+        // propiedad para indicar si se esta cargando los datos
+        isLoading: false,
       }
     },
     /**
@@ -273,14 +289,23 @@
        * Función para generar los carteles
        */
       generate() {
+        // se muestra el loader
+        this.isLoading = true
         this.$validator.validateAll('scope-step-2')
           .then(() => {
-            // TODO: Modificar cuando se tengas los objetos reales
             Antuan.generatePosters(this.info)
-              .then((info) => console.log(info)) // eslint-disable-line
+              .then(() => {
+                this.isLoading = false
+                // TODO: cerrar el cuadro de diálogo
+              })
+              .catch(() => {
+                // TODO: Mostrar Dialogo con la descripcion
+                // del error
+                this.isLoading = false
+              })
           })
           .catch(() => {
-            // TODO: Existe error en el dato
+            this.isLoading = false
           })
       },
     },
@@ -298,6 +323,9 @@
           set: this.set,
           box: this.box,
         }
+      },
+      getAsJSON() {
+        return JSON.stringify(this.info)
       },
     },
     /**
@@ -327,6 +355,90 @@
 </script>
 
 <style lang="scss">
+  .main-component {
+    padding: 1rem;
+    /*
+    .step-header {
+
+    }
+    */
+    .step-container {
+      height: 80vh;
+
+      section {
+        margin-top: 2rem;
+
+        .header > div {
+          margin-left: 1rem;
+
+          > label {
+            margin-right: 4.5rem;
+            font-weight: bold;
+            font-size: 0.91rem;
+          }
+          > input {
+            width: 1rem;
+            height: 1rem;
+            text-align: center;
+          }
+        }
+
+        .container {
+          margin-left: 1rem;
+
+          > div {
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+          }
+        }
+      }
+      .input-box.step-2 {
+        overflow-y: scroll;
+        height: 80vh;
+      }
+    }
+
+    .step-footer {
+      position: absolute;
+      bottom: 10px;
+      width:90%;
+      margin-left: 2%;
+      margin-right: 2%;
+      text-align: right;
+      padding: 5px;
+    }
+  }
+
+  .inline-group {
+      display: table;
+      width: 25rem;
+
+      > label,
+      > input,
+      > select {
+        display: table-cell
+      }
+      > label {
+        width: 12rem;
+      }
+    }
+
+  .active-error {
+    > .error {
+      display: block;
+      margin-left: 1rem;
+      padding-top: 0.5rem;
+    }
+
+    input,
+    select {
+      border-style: solid;
+      border-color: #dd4b4c;
+    }
+  }
+  .error {
+    display: none;
+  }
 
   .code {
     display: block;
@@ -341,57 +453,4 @@
       word-wrap: break-word; /* IE 5.5+ */
     }
   }
-
-
-  .button-section {
-    /*background-color: #00FFFF;*/
-    position: absolute;
-    bottom: 10px;
-    width:90%;
-    margin-left: 2%;
-    margin-right: 2%;
-    text-align: right;
-    padding: 5px;
-  }
-
-  .row{
-    margin-bottom: 0.5rem;
-  }
-
-  /*
-  .step-1{
-    display: none;
-  }
-  */
-  .mandatory {
-    color: #FF0000;
-    margin-left: 2px;
-  }
-
-  .input-box{
-    /* background-color: #FFFF00;*/
-    overflow: auto;
-    position: absolute;
-    bottom: 50px;
-    top: 70px;
-    width: 90%;
-    margin-left: 2%;
-    margin-right: 2%;
-    padding: 5px;
-  }
-
-
-  label {
-    display: inline-block;
-    width: 200px;
-  }
-
-  input {
-    display: inline-block;
-  }
-
-  select {
-    width: 130px;
-  }
-
 </style>
