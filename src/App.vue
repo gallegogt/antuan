@@ -363,8 +363,6 @@
     }
     */
     .step-container {
-      height: 80vh;
-
       section {
         margin-top: 2rem;
 
@@ -392,18 +390,9 @@
           }
         }
       }
-      .input-box.step-2 {
-        overflow-y: scroll;
-        height: 80vh;
-      }
     }
 
     .step-footer {
-      position: absolute;
-      bottom: 10px;
-      width:90%;
-      margin-left: 2%;
-      margin-right: 2%;
       text-align: right;
       padding: 5px;
     }
