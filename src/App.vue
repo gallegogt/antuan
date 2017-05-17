@@ -297,6 +297,7 @@
               .then(() => {
                 this.isLoading = false
                 // TODO: cerrar el cuadro de diálogo
+                google.script.host.close()
               })
               .catch(() => {
                 // TODO: Mostrar Dialogo con la descripcion
