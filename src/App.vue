@@ -168,7 +168,8 @@
         button.step-2.create(@click="generate" :disabled="isVisibleSetp1 || errors.any()")
           | Generar
     div(:class="['ui', {active: isLoading}, 'dimmer']")
-      .ui.loader
+      .ui.indeterminate.text.loader
+        | {{ processingText }}
   //
     .code
       pre
@@ -259,6 +260,8 @@
         },
         // propiedad para indicar si se esta cargando los datos
         isLoading: false,
+        // propiedad que define el texto del proceso de cargado
+        processingText: 'Espere por favor, estamos generando los carteles...',
       }
     },
     /**
@@ -293,7 +296,9 @@
         this.isLoading = true
         this.$validator.validateAll('scope-step-2')
           .then(() => {
-            Antuan.generatePosters(this.info)
+            Antuan.generatePosters(this.info, (text) => {
+              this.processingText = text
+            })
               .then(() => {
                 this.isLoading = false
                 // TODO: cerrar el cuadro de diálogo
