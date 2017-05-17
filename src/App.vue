@@ -5,6 +5,8 @@
         | 1 Identifica las prendas
       h3.step-2(v-show='!isVisibleSetp1')
         | 2 Seleccionemos los ítems de encabezado
+      span.sheet-not-normalized(v-show="sheetColumns.length == 0")
+        | Se debe seleccionar la hoja de cálculo normalizada
       hr
     .step-container
       .input-box.step-1(v-show='isVisibleSetp1')
@@ -363,11 +365,16 @@
 <style lang="scss">
   .main-component {
     padding: 1rem;
-    /*
-    .step-header {
 
+    .step-header {
+      .sheet-not-normalized {
+        color: #dd4b39;
+        text-align: center;
+        font-size: 1.4rem;
+        margin-left: 2rem;
+      }
     }
-    */
+
     .step-container {
       section {
         margin-top: 2rem;
